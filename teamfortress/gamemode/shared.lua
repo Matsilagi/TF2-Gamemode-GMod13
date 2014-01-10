@@ -67,7 +67,7 @@ end
 hook.Call("PostTFLibsLoaded", GM)
 
 GM.Name 		= "Team Fortress 2"
-GM.Author 		= "_Kilburn; Ported and Fixed by SmileyFace"
+GM.Author 		= "_Kilburn; Fixed by wango911; Ported by Jcw87"
 GM.Email 		= "N/A"
 GM.Website 		= "N/A"
 GM.TeamBased 	= true

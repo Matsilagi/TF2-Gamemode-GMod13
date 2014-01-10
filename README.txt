@@ -1,6 +1,6 @@
 Name: Team Fortress 2 Gamemode for Garry's Mod 13
-Version: MICE.PENISCorp_svn.2013-10-03
-Authors: [_Kilburn] (original developer); [wango911/SmileyFace] (Porting, fixing major bugs)
+Version: PENISCorp_svn.2013-10-03
+Authors: [_Kilburn] (original developer); [wango911] (Fixing major bugs); [Jcw87] (Porting)
 Last Modified: 10/03/2013 @7:53PM PST
 
 This is the Team Fortress 2 Gamemode for Garry's Mod 13. Thank you so much for taking interest in this!
