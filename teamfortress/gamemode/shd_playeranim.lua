@@ -1,4 +1,3 @@
-
 function GM:HandlePlayerJumping(pl)
 	if pl:IsHL2() then
 		return self.BaseClass:HandlePlayerJumping(pl)
@@ -28,7 +27,7 @@ function GM:HandlePlayerJumping(pl)
 			pl:AnimRestartMainSequence()
 			
 			if pl:OnGround() then
-				Player:AnimRestartGesture(GESTURE_SLOT_JUMP, ACT_MP_JUMP_LAND)
+				pl:AnimRestartGesture(GESTURE_SLOT_JUMP, ACT_MP_JUMP_LAND, true)
 			end
 		end
 		
@@ -273,11 +272,11 @@ function GM:DoAnimationEvent(pl, event, data)
 	local w = pl:GetActiveWeapon()
 	if event == PLAYERANIMEVENT_ATTACK_PRIMARY then
 		if pl.anim_InSwim then
-			Player:AnimRestartGesture(GESTURE_SLOT_ATTACK_AND_RELOAD, ACT_MP_ATTACK_SWIM_PRIMARYFIRE)
+			pl:AnimRestartGesture(GESTURE_SLOT_ATTACK_AND_RELOAD, ACT_MP_ATTACK_SWIM_PRIMARYFIRE, true)
 		elseif pl:Crouching() then
-			Player:AnimRestartGesture(GESTURE_SLOT_ATTACK_AND_RELOAD, ACT_MP_ATTACK_CROUCH_PRIMARYFIRE)
+			pl:AnimRestartGesture(GESTURE_SLOT_ATTACK_AND_RELOAD, ACT_MP_ATTACK_CROUCH_PRIMARYFIRE, true)
 		else
-			Player:AnimRestartGesture(GESTURE_SLOT_ATTACK_AND_RELOAD, ACT_MP_ATTACK_STAND_PRIMARYFIRE)
+			pl:AnimRestartGesture(GESTURE_SLOT_ATTACK_AND_RELOAD, ACT_MP_ATTACK_STAND_PRIMARYFIRE, true)
 		end
 		
 		--return ACT_INVALID
@@ -288,21 +287,21 @@ function GM:DoAnimationEvent(pl, event, data)
 		end
 	elseif event == PLAYERANIMEVENT_RELOAD then
 		if pl.anim_InSwim then
-			Player:AnimRestartGesture(GESTURE_SLOT_ATTACK_AND_RELOAD, ACT_MP_RELOAD_SWIM)
+			pl:AnimRestartGesture(GESTURE_SLOT_ATTACK_AND_RELOAD, ACT_MP_RELOAD_SWIM, true)
 		elseif pl:Crouching() then
-			Player:AnimRestartGesture(GESTURE_SLOT_ATTACK_AND_RELOAD, ACT_MP_RELOAD_CROUCH)
+			pl:AnimRestartGesture(GESTURE_SLOT_ATTACK_AND_RELOAD, ACT_MP_RELOAD_CROUCH, true)
 		else
-			Player:AnimRestartGesture(GESTURE_SLOT_ATTACK_AND_RELOAD, ACT_MP_RELOAD_STAND)
+			pl:AnimRestartGesture(GESTURE_SLOT_ATTACK_AND_RELOAD, ACT_MP_RELOAD_STAND, true)
 		end
 		
 		return ACT_INVALID
 	elseif event == PLAYERANIMEVENT_CUSTOM_GESTURE then
 		if data == ACT_MP_DOUBLEJUMP then
 			-- Double jump
-			Player:AnimRestartGesture(GESTURE_SLOT_JUMP, ACT_MP_DOUBLEJUMP)
+			pl:AnimRestartGesture(GESTURE_SLOT_JUMP, ACT_MP_DOUBLEJUMP, true)
 		elseif data == ACT_MP_GESTURE_FLINCH_CHEST then
 			-- Flinch
-			Player:AnimRestartGesture(GESTURE_SLOT_FLINCH, ACT_MP_GESTURE_FLINCH_CHEST)
+			pl:AnimRestartGesture(GESTURE_SLOT_FLINCH, ACT_MP_GESTURE_FLINCH_CHEST, true)
 		elseif data == ACT_MP_AIRWALK then
 			-- Go into airwalk animation
 			if pl.anim_Jumping then
@@ -313,60 +312,60 @@ function GM:DoAnimationEvent(pl, event, data)
 		elseif data == ACT_MP_RELOAD_STAND_LOOP then
 			-- Reload loop
 			if pl.anim_InSwim then
-				Player:AnimRestartGesture(GESTURE_SLOT_ATTACK_AND_RELOAD, ACT_MP_RELOAD_SWIM_LOOP)
+				pl:AnimRestartGesture(GESTURE_SLOT_ATTACK_AND_RELOAD, ACT_MP_RELOAD_SWIM_LOOP, true)
 			elseif pl:Crouching() then
-				Player:AnimRestartGesture(GESTURE_SLOT_ATTACK_AND_RELOAD, ACT_MP_RELOAD_CROUCH_LOOP)
+				pl:AnimRestartGesture(GESTURE_SLOT_ATTACK_AND_RELOAD, ACT_MP_RELOAD_CROUCH_LOOP, true)
 			else
-				Player:AnimRestartGesture(GESTURE_SLOT_ATTACK_AND_RELOAD, ACT_MP_RELOAD_STAND_LOOP)
+				pl:AnimRestartGesture(GESTURE_SLOT_ATTACK_AND_RELOAD, ACT_MP_RELOAD_STAND_LOOP, true)
 			end
 		elseif data == ACT_MP_RELOAD_STAND_END then
 			-- Reload end
 			if pl.anim_InSwim then
-				Player:AnimRestartGesture(GESTURE_SLOT_ATTACK_AND_RELOAD, ACT_MP_RELOAD_SWIM_END)
+				pl:AnimRestartGesture(GESTURE_SLOT_ATTACK_AND_RELOAD, ACT_MP_RELOAD_SWIM_END, true)
 			elseif pl:Crouching() then
-				Player:AnimRestartGesture(GESTURE_SLOT_ATTACK_AND_RELOAD, ACT_MP_RELOAD_CROUCH_END)
+				pl:AnimRestartGesture(GESTURE_SLOT_ATTACK_AND_RELOAD, ACT_MP_RELOAD_CROUCH_END, true)
 			else
-				Player:AnimRestartGesture(GESTURE_SLOT_ATTACK_AND_RELOAD, ACT_MP_RELOAD_STAND_END)
+				pl:AnimRestartGesture(GESTURE_SLOT_ATTACK_AND_RELOAD, ACT_MP_RELOAD_STAND_END, true)
 			end
 		elseif data == ACT_MP_ATTACK_STAND_PREFIRE then
 			-- Prefire gesture
 			local act
 			--MsgN("Restarting prefire gesture")
 			if pl.anim_InSwim then
-				Player:AnimRestartGesture(GESTURE_SLOT_ATTACK_AND_RELOAD, ACT_MP_ATTACK_SWIM_PREFIRE)
+				pl:AnimRestartGesture(GESTURE_SLOT_ATTACK_AND_RELOAD, ACT_MP_ATTACK_SWIM_PREFIRE, true)
 			elseif pl:Crouching() then
-				Player:AnimRestartGesture(GESTURE_SLOT_ATTACK_AND_RELOAD, ACT_MP_ATTACK_CROUCH_PREFIRE)
+				pl:AnimRestartGesture(GESTURE_SLOT_ATTACK_AND_RELOAD, ACT_MP_ATTACK_CROUCH_PREFIRE, true)
 			else
-				Player:AnimRestartGesture(GESTURE_SLOT_ATTACK_AND_RELOAD, ACT_MP_ATTACK_STAND_PREFIRE)
+				pl:AnimRestartGesture(GESTURE_SLOT_ATTACK_AND_RELOAD, ACT_MP_ATTACK_STAND_PREFIRE, true)
 			end
 			pl.anim_Deployed = true
 		elseif data == ACT_MP_ATTACK_STAND_POSTFIRE then
 			-- Postfire gesture
 			if pl.anim_InSwim then
-				Player:AnimRestartGesture(GESTURE_SLOT_ATTACK_AND_RELOAD, ACT_MP_ATTACK_SWIM_POSTFIRE)
+				pl:AnimRestartGesture(GESTURE_SLOT_ATTACK_AND_RELOAD, ACT_MP_ATTACK_SWIM_POSTFIRE, true)
 			elseif pl:Crouching() then
-				Player:AnimRestartGesture(GESTURE_SLOT_ATTACK_AND_RELOAD, ACT_MP_ATTACK_CROUCH_POSTFIRE)
+				pl:AnimRestartGesture(GESTURE_SLOT_ATTACK_AND_RELOAD, ACT_MP_ATTACK_CROUCH_POSTFIRE, true)
 			else
-				Player:AnimRestartGesture(GESTURE_SLOT_ATTACK_AND_RELOAD, ACT_MP_ATTACK_STAND_POSTFIRE)
+				pl:AnimRestartGesture(GESTURE_SLOT_ATTACK_AND_RELOAD, ACT_MP_ATTACK_STAND_POSTFIRE, true)
 			end
 			pl.anim_Deployed = false
 		elseif data == ACT_MP_ATTACK_STAND_SECONDARYFIRE then
 			-- Secondary attack gesture
 			if pl.anim_InSwim then
-				Player:AnimRestartGesture(GESTURE_SLOT_ATTACK_AND_RELOAD, ACT_MP_ATTACK_SWIM_SECONDARYFIRE)
+				pl:AnimRestartGesture(GESTURE_SLOT_ATTACK_AND_RELOAD, ACT_MP_ATTACK_SWIM_SECONDARYFIRE, true)
 			elseif pl:Crouching() then
-				Player:AnimRestartGesture(GESTURE_SLOT_ATTACK_AND_RELOAD, ACT_MP_ATTACK_CROUCH_SECONDARYFIRE)
+				pl:AnimRestartGesture(GESTURE_SLOT_ATTACK_AND_RELOAD, ACT_MP_ATTACK_CROUCH_SECONDARYFIRE, true)
 			else
-				Player:AnimRestartGesture(GESTURE_SLOT_ATTACK_AND_RELOAD, ACT_MP_ATTACK_STAND_SECONDARYFIRE)
+				pl:AnimRestartGesture(GESTURE_SLOT_ATTACK_AND_RELOAD, ACT_MP_ATTACK_STAND_SECONDARYFIRE, true)
 			end
 		elseif data == ACT_MP_ATTACK_STAND_PRIMARY_DEPLOYED then
 			-- Deployed attack gesture
 			if pl.anim_InSwim then
-				Player:AnimRestartGesture(GESTURE_SLOT_ATTACK_AND_RELOAD, ACT_MP_ATTACK_SWIM_PRIMARY_DEPLOYED)
+				pl:AnimRestartGesture(GESTURE_SLOT_ATTACK_AND_RELOAD, ACT_MP_ATTACK_SWIM_PRIMARY_DEPLOYED, true)
 			elseif pl:Crouching() then
-				Player:AnimRestartGesture(GESTURE_SLOT_ATTACK_AND_RELOAD, ACT_MP_ATTACK_CROUCH_PRIMARY_DEPLOYED)
+				pl:AnimRestartGesture(GESTURE_SLOT_ATTACK_AND_RELOAD, ACT_MP_ATTACK_CROUCH_PRIMARY_DEPLOYED, true)
 			else
-				Player:AnimRestartGesture(GESTURE_SLOT_ATTACK_AND_RELOAD, ACT_MP_ATTACK_STAND_PRIMARY_DEPLOYED)
+				pl:AnimRestartGesture(GESTURE_SLOT_ATTACK_AND_RELOAD, ACT_MP_ATTACK_STAND_PRIMARY_DEPLOYED, true)
 			end
 		elseif data == ACT_MP_DEPLOYED then
 			-- Enter deployed state
@@ -381,7 +380,7 @@ function GM:DoAnimationEvent(pl, event, data)
 				pl:AnimRestartMainSequence()
 			end
 		elseif VoiceCommandGestures[data] then
-			Player:AnimRestartGesture(GESTURE_SLOT_CUSTOM, data)
+			pl:AnimRestartGesture(GESTURE_SLOT_CUSTOM, data, true)
 		end
 		
 		return ACT_INVALID
@@ -394,7 +393,7 @@ function GM:DoAnimationEvent(pl, event, data)
 		
 		return ACT_INVALID
 	elseif event == PLAYERANIMEVENT_CANCEL_RELOAD then
-		Player:AnimResetGestureSlot(GESTURE_SLOT_ATTACK_AND_RELOAD)
+		pl:AnimResetGestureSlot(GESTURE_SLOT_ATTACK_AND_RELOAD)
 		return ACT_INVALID
 	end
 end
