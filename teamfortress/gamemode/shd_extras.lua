@@ -1,4 +1,3 @@
-
 MsgN("Loading extra items and attributes")
 
 if CLIENT then
@@ -1202,30 +1201,6 @@ hook.Add("SetupNPCRagdoll", "GEYRAGDOLL_NPC", function(npc, rag)
 		local effectdata = EffectData()
 		effectdata:SetEntity(npc)
 		util.Effect("gayplayer", effectdata)
-	end
-end)
-
-hook.Add("Tick", "GAYTHINK", function()
-	local g = LocalPlayer():GetNWBool("VeryGay")
-	if g ~= LocalPlayer().LastGayState then
-		LocalPlayer().LastGayState = g
-		
-		if g then
-			print("peencock")
-			RunConsoleCommand("pp_colormod", 1)
-			RunConsoleCommand("pp_colormod_addr", 12)
-			RunConsoleCommand("pp_colormod_addg", 0)
-			RunConsoleCommand("pp_colormod_addb", 10)
-			RunConsoleCommand("pp_colormod_mulr", 0)
-			RunConsoleCommand("pp_colormod_mulg", 0)
-			RunConsoleCommand("pp_colormod_mulb", 0)
-			RunConsoleCommand("pp_colormod_brightness", 0)
-			RunConsoleCommand("pp_colormod_contrast", 1)
-			RunConsoleCommand("pp_colormod_color", 1.4)
-		else
-			print("dik")
-			RunConsoleCommand("pp_colormod", 0)
-		end
 	end
 end)
 
