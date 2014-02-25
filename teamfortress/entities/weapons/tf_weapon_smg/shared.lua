@@ -25,7 +25,7 @@ PrecacheParticleSystem("muzzle_smg")
 PrecacheParticleSystem("bullet_pistol_tracer01_red")
 PrecacheParticleSystem("bullet_pistol_tracer01_red_crit")
 PrecacheParticleSystem("bullet_pistol_tracer01_blue")
-PrecacheParticleSystem("bullet_pistol_tracer01_blue_crit"
+PrecacheParticleSystem("bullet_pistol_tracer01_blue_crit")
 
 SWEP.BaseDamage = 8
 SWEP.DamageRandomize = 0
