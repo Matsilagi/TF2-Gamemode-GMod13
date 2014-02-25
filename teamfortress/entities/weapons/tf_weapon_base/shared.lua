@@ -8,7 +8,7 @@ SWEP.Spawnable			= false
 SWEP.AdminSpawnable		= false
 
 -- Viewmodel FOV should be constant, don't change this
-SWEP.ViewModelFOV	= 70
+SWEP.ViewModelFOV	= 54
 SWEP.ViewModelFlip	= false
 
 -- View/World model
@@ -61,7 +61,6 @@ include("shd_util.lua")
 include("shd_anim.lua")
 include("shd_sound.lua")
 include("shd_crits.lua")
-include("shd_viewmodel.lua")
 
 function SWEP:ProjectileShootPos()
 	local pos, ang = self.Owner:GetShootPos(), self.Owner:EyeAngles()
