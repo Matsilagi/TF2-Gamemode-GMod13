@@ -10,7 +10,7 @@ ENT.Type = "anim"
 ENT.Base = "item_healthkit_base"    
 
 ENT.Model = "models/items/medkit_medium.mdl"
-ENT.HealthPercentage = 20.5
+ENT.HealthPercentage = 50
 
 if SERVER then
 	AddCSLuaFile("shared.lua")
