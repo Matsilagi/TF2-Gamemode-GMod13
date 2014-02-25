@@ -1,4 +1,3 @@
-
 local BlastForceMultiplier = 16
 local BlastForceToVelocityMultiplier = (0.015 / BlastForceMultiplier)
 
@@ -296,33 +295,11 @@ function GM:CommonScaleDamage(ent, hitgroup, dmginfo)
 end
 
 function GM:ScalePlayerDamage(pl, hitgroup, dmginfo)
-	if not pl.DamagePositions then
-		pl.DamagePositions = {}
-		pl.ScaleDamageSubstract = 0
-	end
-	
-	local addpos = true
-	for _,v in ipairs(pl.DamagePositions) do
-		if v == dmginfo:GetDamagePosition() then
-			addpos = false
-			break
-		end
-	end
-	
-	--print("ScalePlayerDamage",pl,dmginfo)
-	
-	if addpos then
-		pl.ScaleDamageSubstract = pl.ScaleDamageSubstract + dmginfo:GetDamage()
-		table.insert(pl.DamagePositions, dmginfo:GetDamagePosition())
-	else
-		return
-	end
-	
-	self:CommonScaleDamage(pl, hitgroup, dmginfo)
+        local dontscaledamage = self:CommonScaleDamage(pl, hitgroup, dmginfo)
 	
 	--if not dontscaledamage then
-		-- players seem to receive doubled damage from other players, so we'll just fix this
-		-- dmginfo:ScaleDamage(0.5)
+		 -- players seem to receive doubled damage from other players, so we'll just fix this
+		--dmginfo:ScaleDamage(0.5)
 	--end
 	
 	--Msg(tostring(pl).." - "..tostring(dmginfo).." > Calculated damage : "..dmginfo:GetDamage().."  Attacker : "..tostring(dmginfo:GetAttacker()).."\n")
