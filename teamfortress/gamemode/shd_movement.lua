@@ -1,4 +1,3 @@
-
 hook.Add("Move", "TFMove", function(pl, move)
 	if CLIENT and not pl.TempAttributes then
 		pl.TempAttributes = {}
@@ -35,9 +34,20 @@ hook.Add("Move", "TFMove", function(pl, move)
 				--vel = vel + pl.PlayerJumpPower * vector_up -- Add vertical force
 				vel = vel + 240 * vector_up -- Add vertical force
 				
-				local sp = pl:GetRealClassSpeed()
+				local spd = pl:GetRealClassSpeed()
 				
-				vel = vel + forward * move:GetForwardSpeed() + right * move:GetSideSpeed()
+				if pl:KeyDown(IN_FORWARD) then
+					vel = vel + forward * spd
+				elseif pl:KeyDown(IN_BACK) then
+					vel = vel - forward * spd
+				end
+		
+				if pl:KeyDown(IN_MOVERIGHT) then
+					vel = vel + right * spd
+				elseif pl:KeyDown(IN_MOVELEFT) then
+					vel = vel - right * spd
+				end
+
 				move:SetVelocity(vel)
 								
 				--pl:SetAnimation(10002)
