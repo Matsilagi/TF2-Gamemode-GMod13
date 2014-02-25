@@ -1,5 +1,10 @@
 ******CHANGELOG******
 
+***[02/25/2014]***
+--FIXED:
+-Medium Health Pack HP
+-Scout Double Jump
+
 ***[10/03/2013]***
 --NEW:
 -Files now on GitHub!
