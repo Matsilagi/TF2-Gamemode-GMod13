@@ -1,9 +1,24 @@
 ******CHANGELOG******
 
+***[02/26/2014]***
+--CHANGED:
+-viewmodel_fov defaulted to 54 from 70
+-Spy revolver ammo reserve changed from 20 to 24
+
+--FIXED:
+-Pyro Airblast
+-Player Damage Taken
+-Lua Error Cleanup
+-Demoman Sticky Jump
+
+--REMOVED:
+-Garbage code causing console spam
+
 ***[02/25/2014]***
 --FIXED:
 -Medium Health Pack HP
 -Scout Double Jump
+-Player animations no longer console spam
 
 ***[10/03/2013]***
 --NEW:
