@@ -15,5 +15,6 @@ _Kilburn (original author)
 Jcw87 (ported to LuaJIT)
 wango911 (Fixed major bugs, added icon, pictures)
 Nik1895 (reporting and squashing bugs)
+Kelse (ditto)
 
 ^Based off of this, it seems it's developing more as a tiny community project. :)

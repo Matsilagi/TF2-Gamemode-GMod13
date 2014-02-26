@@ -259,7 +259,7 @@ function SWEP:PrimaryAttack()
 			self:SetHealTarget(tr.Entity)
 			
 			self:SendWeaponAnim(ACT_MP_ATTACK_STAND_PREFIRE)
-			self.Owner:SetAnimation(PLAYER_PREFIRE)
+			self.Owner:SetAnimation(ACT_MP_ATTACK_STAND_PREFIRE)
 			self.ShootSoundLoop:Play()
 			self.NextIdle = nil
 			self.NextIdle2 = CurTime() + self:SequenceDuration()
@@ -283,7 +283,7 @@ function SWEP:StopFiring()
 	
 	self.ShootSoundLoop:Stop()
 	self:SendWeaponAnim(ACT_MP_ATTACK_STAND_POSTFIRE)
-	self.Owner:SetAnimation(PLAYER_POSTFIRE)
+	self.Owner:SetAnimation(ACT_MP_ATTACK_STAND_POSTFIRE)
 	self.NextIdle = CurTime() + self:SequenceDuration()
 end
 
