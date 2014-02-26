@@ -52,7 +52,7 @@ CLASS.Sounds = {
 }
 
 CLASS.AmmoMax = {
-	[TF_PRIMARY]	= 20,		-- primary
+	[TF_PRIMARY]	= 24,		-- primary
 	[TF_SECONDARY]	= 24,		-- secondary
 	[TF_METAL]		= 100,		-- metal
 	[TF_GRENADES1]	= 0,		-- grenades1
