@@ -1,20 +1,22 @@
 Name: Team Fortress 2 Gamemode for Garry's Mod 13
-Version: PENISCorp_svn.9.2014-02-25
-Last Modified: 02/25/2014 @9:46AM PST
+Version: tf_gamemode.master.2014-02-26.1227
+Last Modified: 02/26/2014 @12:27PM PST
 
 This is the Team Fortress 2 Gamemode for Garry's Mod 13. Thank you so much for taking interest in this!
 
-The gamemode is stable for use, but many bugs are still there. I am not a super-excellent LUA coder myself (mostly chicken scratch), but it would be nice to find what other issues are present besides the one I found on my free time. Many items/weapons/miscs are outdated, at the moment I'm not worried about implementing new things, or current changes, I care about getting the base gamemode stable. :-)
+The gamemode is stable for use, but many bugs are still there. Feel free to contribute by sending bug reports and/or pull requests! Active contributors will be credited!
 
-This gamemode is free and open source under GPL Version 3.0 License. THE SOFTWARE IS PROVIDED AS IS, NO WARRANTIES, VERY LIMITED HELP/SUPPORT, AND A NOVICE LUA CODER.
+This gamemode is free and open source under GPL Version 3.0 License. THE SOFTWARE IS PROVIDED AS IS, NO WARRANTIES, AND VERY LIMITED HELP/SUPPORT.
 
-***Report any bugs to the "Issues" tab. Although I may/may not be able to fix them (because of my LUA skill), it helps me a lot when I do get to the bug squashing process (usually my free time :P).***
+***Report any bugs to the "Issues" tab. It helps a lot when resolving any bugs. If you developed a fix for a bug, please send a pull request and explain what it fixes!***
 
 Credits:
-_Kilburn (original author)
-Jcw87 (ported to LuaJIT)
-wango911 (Fixed major bugs, added icon, pictures)
-Nik1895 (reporting and squashing bugs)
-Kelse (ditto)
+_Kilburn (Original author)
+Jcw87 (Ported to LuaJIT)
+wango911 (Squashing core bugs, added icon, backgrounds)
+Nik1895 (Reporting and squashing bugs)
+Kelse (Ditto)
 
 ^Based off of this, it seems it's developing more as a tiny community project. :)
+
+Fun fact: You can use CapsAdmin's Player Appearance Customizer 3 to give your TF2 character hats/miscs and unusual effects! Note however, his add-on is not affiliated with the TF2 Gamemode, but it's somewhat compatible.
