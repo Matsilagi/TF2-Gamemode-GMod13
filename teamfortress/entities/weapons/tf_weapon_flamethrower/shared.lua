@@ -254,7 +254,7 @@ function SWEP:StopFiring()
 	self.SpinDownSound:Play()
 	self.FireSound:Stop()
 	self.FireCritSound:Stop()
-	self.Owner:SetAnimation(PLAYER_POSTFIRE)
+	self.Owner:SetAnimation(ACT_MP_ATTACK_STAND_POSTFIRE)
 	self.NextIdle = CurTime() + 0.04
 end
 
