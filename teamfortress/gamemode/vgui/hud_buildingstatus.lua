@@ -41,10 +41,12 @@ function PANEL:PerformLayout()
 end
 
 function PANEL:ShouldDraw()
-	-- gay temporary quickfix
+	-- MEGA gay temporary quickfix
+	if LocalPlayer():IsValid() and LocalPlayer():GetPlayerClass() != nil then
 	if LocalPlayer():GetPlayerClass() == "spy" then return false end
 	
 	return GetConVarNumber("cl_drawhud")~=0 and IsCustomHUDVisible("HudBuildingStatus")
+	end
 end
 
 function PANEL:Think()
