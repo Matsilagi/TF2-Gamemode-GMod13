@@ -131,7 +131,10 @@ function SWEP:PrimaryAttack()
 end
 
 function SWEP:Think()
+	local BASESPEED = 3 --this is really bad if anyone has a better way of doing this please tell me
+	local sp = 100
 	self:CallBaseFunction("Think")
+	self.Owner:SetWalkSpeed(BASESPEED * sp)
 	
 	if CLIENT then
 		if self.ClientCharging and self.ClientChargeStart then
@@ -223,8 +226,7 @@ function SWEP:ShootProjectile()
 		end
 		
 		self.Owner:SetNWInt("NumBombs", #self.Owner.Bombs)
-	end
-	
+		end
 	self:ShootEffects()
 end
 
