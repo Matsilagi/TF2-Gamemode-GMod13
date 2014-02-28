@@ -295,7 +295,7 @@ function GM:CommonScaleDamage(ent, hitgroup, dmginfo)
 end
 
 function GM:ScalePlayerDamage(pl, hitgroup, dmginfo)
-        local dontscaledamage = self:CommonScaleDamage(pl, hitgroup, dmginfo)
+	local dontscaledamage = self:CommonScaleDamage(pl, hitgroup, dmginfo)
 	
 	--if not dontscaledamage then
 		 -- players seem to receive doubled damage from other players, so we'll just fix this
