@@ -75,6 +75,11 @@ PrecacheParticleSystem("flamethrower_fire_1")
 PrecacheParticleSystem("flamethrower_crit_red")
 PrecacheParticleSystem("flamethrower_blue")
 PrecacheParticleSystem("flamethrower_crit_blue")
+PrecacheParticleSystem("pyro_blast")
+PrecacheParticleSystem("pyro_blast_flash")
+PrecacheParticleSystem("pyro_blast_lines")
+PrecacheParticleSystem("pyro_blast_warp")
+PrecacheParticleSystem("pyro_blast_warp2")
 
 SWEP.Base				= "tf_weapon_gun_base"
 
