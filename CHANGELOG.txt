@@ -1,5 +1,17 @@
 ******CHANGELOG******
 
+***[03/04/2014]***
+--FIXED:
+-Heavy Crouch animations
+
+--CHANGED:
+-Updated GMod_STools for gmodplayer
+-particle_manifest.lua content is displayed in order of filename linked
+-Civilian class uses Scout model, tweaked health to 50HP, speed changed to 100, removed weapons.
+
+--REMOVED:
+-Some commented garbage data
+
 ***[02/26/2014]***
 --CHANGED:
 -viewmodel_fov defaulted to 54 from 70
