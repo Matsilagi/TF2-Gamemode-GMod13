@@ -1,9 +1,6 @@
 
 TOOL.Category		= "Constraints"
 TOOL.Name			= "#tool.slider.name"
-TOOL.Command		= nil
-TOOL.ConfigName		= nil
-
 
 TOOL.ClientConVar[ "width" ] = "1.5"
 TOOL.ClientConVar[ "material" ] = "cable/cable"
@@ -21,9 +18,7 @@ function TOOL:LeftClick( trace )
 	self:SetObject( iNum + 1, trace.Entity, trace.HitPos, Phys, trace.PhysicsBone, trace.HitNormal )
 	
 	if ( iNum > 0 ) then
-	
-		if ( !self:GetEnt(1):IsValid() && !self:GetEnt(2):IsValid() ) then return end
-		
+
 		if ( CLIENT ) then
 			self:ClearObjects()
 			return true
@@ -147,7 +142,7 @@ end
 
 function TOOL.BuildCPanel( CPanel )
 
-	CPanel:AddControl( "Header", { Text = "#tool.slider.name", Description	= "#tool.slider.help" }  )
+	CPanel:AddControl( "Header", { Description	= "#tool.slider.help" } )
 	
 	CPanel:AddControl( "ComboBox", 
 	{ 

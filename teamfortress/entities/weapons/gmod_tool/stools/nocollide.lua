@@ -2,7 +2,6 @@
 TOOL.Category		= "Construction"
 TOOL.Name			= "#tool.nocollide.name"
 
-
 cleanup.Register( "nocollide" )
 
 function TOOL:LeftClick( trace )
@@ -32,12 +31,14 @@ function TOOL:LeftClick( trace )
 
 		local constraint = constraint.NoCollide(Ent1, Ent2, Bone1, Bone2)
 	
-		undo.Create( "NoCollide" )
-		undo.AddEntity( constraint )
-		undo.SetPlayer( self:GetOwner() )
-		undo.Finish()
-		
-		self:GetOwner():AddCleanup( "nocollide", constraint )
+		if ( constraint ) then
+			undo.Create( "NoCollide" )
+			undo.AddEntity( constraint )
+			undo.SetPlayer( self:GetOwner() )
+			undo.Finish()
+			
+			self:GetOwner():AddCleanup( "nocollide", constraint )
+		end
 		
 		self:ClearObjects()
 	
@@ -50,6 +51,12 @@ function TOOL:LeftClick( trace )
 	return true
 	
 end
+
+hook.Add( "EntityRemoved", "nocollide_fix", function( ent )
+	if ( ent:GetClass() == "logic_collision_pair" ) then
+		ent:Fire( "EnableCollisions" )
+	end
+end )
 
 function TOOL:RightClick( trace )
 
@@ -81,4 +88,10 @@ function TOOL:Reload( trace )
 	local  bool = constraint.RemoveConstraints( trace.Entity, "NoCollide" )
 	return bool
 	
+end
+
+function TOOL.BuildCPanel( CPanel )
+
+	CPanel:AddControl( "Header", { Description	= "#tool.nocollide.desc" }  )
+
 end

@@ -17,7 +17,6 @@ include("cl_scheme.lua")
 include("cl_camera.lua")
 
 include("tf_draw_module.lua")
---include("cl_viewmodel.lua")
 
 include("cl_materialfix.lua")
 

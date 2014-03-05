@@ -1,16 +1,13 @@
 
 TOOL.Category		= "Constraints"
 TOOL.Name			= "#tool.motor.name"
-TOOL.Command		= nil
-TOOL.ConfigName		= nil
-
 
 TOOL.ClientConVar[ "torque" ] = "500"
 TOOL.ClientConVar[ "friction" ] = "1"
 TOOL.ClientConVar[ "nocollide" ] = "1"
 TOOL.ClientConVar[ "forcetime" ] = "0"
-TOOL.ClientConVar[ "fwd" ] = "1"
-TOOL.ClientConVar[ "bwd" ] = "2"
+TOOL.ClientConVar[ "fwd" ] = "45"
+TOOL.ClientConVar[ "bwd" ] = "42"
 TOOL.ClientConVar[ "toggle" ] = "0"
 TOOL.ClientConVar[ "forcelimit" ] = "0"
 
@@ -68,10 +65,7 @@ function TOOL:LeftClick( trace )
 		Phys1:SetAngles( TargetAngle )
 		
 		-- Move the object so that the hitpos on our object is at the second hitpos
-		local TargetPos = WPos2 + (Phys1:GetPos() - self:GetPos(1))
-
-		-- Offset slightly so it can rotate
-		TargetPos = TargetPos + (2*Norm2)
+		local TargetPos = WPos2 + ( Phys1:GetPos() - self:GetPos( 1 ) ) + ( Norm2 * 0.2 )
 
 		-- Set the position
 		Phys1:SetPos( TargetPos )
@@ -134,7 +128,7 @@ end
 
 function TOOL.BuildCPanel( CPanel )
 
-	CPanel:AddControl( "Header", { Text = "#tool.motor.name", Description	= "#tool.motor.help" }  )
+	CPanel:AddControl( "Header", { Description	= "#tool.motor.help" }  )
 	
 	CPanel:AddControl( "ComboBox", { Label = "#tool.presets",
 									 MenuButton = 1,
@@ -143,7 +137,7 @@ function TOOL.BuildCPanel( CPanel )
 									 CVars =				{ "motor_torque",		"motor_friction",		"motor_nocollide",			"motor_forcetime" } } )
 
 	CPanel:AddControl( "Numpad",		{ Label = "#tool.motor.numpad1",	Command = "motor_fwd", Label2 = "#tool.motor.numpad2",	Command2 = "motor_bwd" } )
-	CPanel:AddControl( "Slider", 		{ Label = "#tool.motor.torque",	Type = "Float", 	Command = "motor_torque", 	Min = "0", 	Max = "10000", Help=true }  )
+	CPanel:AddControl( "Slider", 		{ Label = "#tool.motor.torque",		Type = "Float", 	Command = "motor_torque",		Min = "0", 	Max = "10000" } )
 	CPanel:AddControl( "Slider", 		{ Label = "#tool.forcelimit",		Type = "Float", 	Command = "motor_forcelimit", 	Min = "0", 	Max = "50000", Help=true }  )
 	CPanel:AddControl( "Slider", 		{ Label = "#tool.hingefriction",	Type = "Float", 	Command = "motor_friction", 	Min = "0", 	Max = "100", Help=true }  )
 	CPanel:AddControl( "Slider", 		{ Label = "#tool.motor.forcetime",	Type = "Float", 	Command = "motor_forcetime", 	Min = "0", 	Max = "120", Help=true }  )

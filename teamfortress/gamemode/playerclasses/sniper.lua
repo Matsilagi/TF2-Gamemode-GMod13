@@ -13,7 +13,7 @@ if CLIENT then
 	}
 end
 
-CLASS.Loadout = {"tf_weapon_compound_bow", "tf_weapon_smg", "tf_weapon_club"}
+CLASS.Loadout = {"tf_weapon_sniperrifle", "tf_weapon_smg", "tf_weapon_club"}
 CLASS.DefaultLoadout = {"TF_WEAPON_SNIPERRIFLE", "TF_WEAPON_SMG", "TF_WEAPON_CLUB"}
 CLASS.ModelName = "sniper"
 

@@ -19,6 +19,7 @@ SWEP.ShootCritSound = Sound("")
 SWEP.ReloadSound = Sound("")
 
 SWEP.TracerEffect = "bullet_tracer01"
+PrecacheParticleSystem("muzzle_flash")
 
 SWEP.BulletsPerShot = 1
 SWEP.BulletSpread = 0.2

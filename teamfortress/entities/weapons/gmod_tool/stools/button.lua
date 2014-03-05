@@ -1,11 +1,9 @@
 
 TOOL.Category		= "Construction"
 TOOL.Name			= "#tool.button.name"
-TOOL.Command		= nil
-TOOL.ConfigName		= ""
 
 TOOL.ClientConVar[ "model" ]			= "models/dav0r/buttons/button.mdl"
-TOOL.ClientConVar[ "keygroup" ]			= "1"
+TOOL.ClientConVar[ "keygroup" ]			= "37"
 TOOL.ClientConVar[ "description" ]		= ""
 TOOL.ClientConVar[ "toggle" ]			= "1"
 
@@ -22,7 +20,7 @@ function TOOL:RightClick( trace )
 	local model				= self:GetClientInfo( "model" )
 	local key 				= self:GetClientNumber( "keygroup" )
 	local description		= self:GetClientInfo( "description" )
-	local toggle			= self:GetClientNumber( "toggle" )
+	local toggle			= self:GetClientNumber( "toggle" ) == 1
 
 	-- If we shot a button change its keygroup
 	if ( trace.Entity:IsValid() && 
@@ -31,7 +29,7 @@ function TOOL:RightClick( trace )
 
 		trace.Entity:SetKey( key )
 		trace.Entity:SetLabel( description )
-		trace.Entity:SetIsToggle( toggle );
+		trace.Entity:SetIsToggle( toggle )
 		
 		return true, NULL, true
 		
@@ -100,7 +98,7 @@ if (SERVER) then
 		button:SetPlayer( pl )
 		button:SetKey( key )
 		button:SetLabel( description )
-		button:SetIsToggle( toggle == 1 )
+		button:SetIsToggle( toggle )
 
 		local ttable = 
 			{
@@ -169,7 +167,7 @@ end
 function TOOL.BuildCPanel( CPanel )
 
 	-- HEADER
-	CPanel:AddControl( "Header", { Text = "#tool.button.name", Description	= "#tool.button.desc" }  )
+	CPanel:AddControl( "Header", { Description	= "#tool.button.desc" }  )
 	
 	local Options = { Default = { button_model = "models/dav0r/buttons/button.mdl" } }
 									
@@ -199,7 +197,6 @@ function TOOL.BuildCPanel( CPanel )
 									
 end
 
-
 list.Set( "ButtonModels", "models/MaxOfS2D/button_01.mdl", {} )
 list.Set( "ButtonModels", "models/MaxOfS2D/button_02.mdl", {} )
 list.Set( "ButtonModels", "models/MaxOfS2D/button_03.mdl", {} )
@@ -207,7 +204,6 @@ list.Set( "ButtonModels", "models/MaxOfS2D/button_04.mdl", {} )
 list.Set( "ButtonModels", "models/MaxOfS2D/button_05.mdl", {} )
 list.Set( "ButtonModels", "models/MaxOfS2D/button_06.mdl", {} )
 list.Set( "ButtonModels", "models/MaxOfS2D/button_slider.mdl", {} )
-
 
 --list.Set( "ButtonModels", "models/dav0r/buttons/button.mdl", {} )
 --list.Set( "ButtonModels", "models/dav0r/buttons/switch.mdl", {} )

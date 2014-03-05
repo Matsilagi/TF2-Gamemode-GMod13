@@ -416,7 +416,7 @@ function SWEP:Think()
 	if not self.IsDeployed and self.NextDeployed and CurTime()>=self.NextDeployed then
 		self.IsDeployed = true
 	end
-	
+	 
 	if SERVER then
 		if self.Spinning then
 			self.Owner:SetClassSpeed(37 * (self.DeployMoveSpeedMultiplier or 1))

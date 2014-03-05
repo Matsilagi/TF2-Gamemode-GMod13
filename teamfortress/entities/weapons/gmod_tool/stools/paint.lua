@@ -1,8 +1,6 @@
 
 TOOL.Category		= "Render"
 TOOL.Name			= "#tool.paint.name"
-TOOL.Command		= nil
-TOOL.ConfigName		= ""
 
 game.AddDecal( "Eye",					"decals/eye" );
 game.AddDecal( "Smile",					"decals/smile" );
@@ -120,9 +118,6 @@ list.Add( "PaintMaterials", "Cross" )
 
 function TOOL.BuildCPanel( CPanel )
 
-	-- HEADER
-	CPanel:AddControl( "Header", { Text = "#tool.paint.name", Description	= "#tool.paint_desc" }  )
-	
 	local Options = list.Get( "PaintMaterials" )
 	table.sort( Options )
 	
@@ -130,13 +125,11 @@ function TOOL.BuildCPanel( CPanel )
 
 	for k, decal in pairs( Options ) do
 	
-		--local MatName = util.DecalMaterial( decal )	
+		--local MatName = util.DecalMaterial( decal )
 		RealOptions[ decal ] = { paint_decal = decal }
 	
 	end
-		
+	
 	CPanel:AddControl( "ListBox", { Label = "#tool.paint.texture", Height = "300", Options = RealOptions } )
-	
-	
-									
+
 end

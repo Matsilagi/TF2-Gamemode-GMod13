@@ -1,8 +1,6 @@
+
 TOOL.Category		= "Render"
 TOOL.Name			= "#tool.material.name"
-TOOL.Command		= nil
-TOOL.ConfigName		= ""
-
 
 TOOL.ClientConVar[ "override" ] = "debug/env_cubemap_model"
 
@@ -36,8 +34,13 @@ function TOOL:LeftClick( trace )
 
 	if ( !IsValid( trace.Entity ) ) then return end
 
+	if ( CLIENT ) then return true end
+	
+	local ent = trace.Entity
+	if ( IsValid( ent.AttachedEntity ) ) then ent = ent.AttachedEntity end
+
 	local mat = self:GetClientInfo( "override" )
-	SetMaterial( self:GetOwner(), trace.Entity, { MaterialOverride = mat } )
+	SetMaterial( self:GetOwner(), ent, { MaterialOverride = mat } )
 	return true
 
 end
@@ -49,7 +52,12 @@ function TOOL:RightClick( trace )
 
 	if ( !IsValid( trace.Entity ) ) then return end
 
-	SetMaterial( self:GetOwner(), trace.Entity, { MaterialOverride = "" } )
+	if ( CLIENT ) then return true end
+	
+	local ent = trace.Entity
+	if ( IsValid( ent.AttachedEntity ) ) then ent = ent.AttachedEntity end
+
+	SetMaterial( self:GetOwner(), ent, { MaterialOverride = "" } )
 	return true
 
 end
@@ -104,10 +112,8 @@ list.Add( "OverrideMaterials", "models/XQM/LightLinesRed_tool" )
 function TOOL.BuildCPanel( CPanel )
 
 	-- HEADER
-	CPanel:SetTooltip( "#tool.material.desc" )
-	
+	CPanel:AddControl( "Header", { Description = "#tool.material.help" } )
+
 	CPanel:MatSelect( "material_override", list.Get( "OverrideMaterials" ), true, 0.33, 0.33 )
 									
 end
-
-

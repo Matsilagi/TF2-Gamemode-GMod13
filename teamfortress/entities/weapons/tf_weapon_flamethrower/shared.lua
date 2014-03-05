@@ -238,9 +238,12 @@ function SWEP:SecondaryAttack()
 		umsg.End()
 	end
 	
-	self:SendWeaponAnim(self.VM_SECONDARYATTACK)
+	
+	// This is the VM airblast animation. It's broken.
+	--self.SendWeaponAnim(self.VM_SECONDARYATTACK) // old implementation, doesn't work
+	self.SendWeaponAnim(ACT_VM_SECONDARYATTACK) // new implementation, works? VM glitches, community primary weapons fail?
 	--self.Owner:SetAnimation(PLAYER_ATTACK1)
-	self.NextIdle = CurTime() + self:SequenceDuration()
+	self.NextIdle = CurTime() + self:SequenceDuration() // culprit?
 	
 	self:TakePrimaryAmmo(20)
 	if SERVER then

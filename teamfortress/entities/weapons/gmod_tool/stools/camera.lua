@@ -1,16 +1,12 @@
 
-
 TOOL.Category		= "Render"
 TOOL.Name			= "#tool.camera.name"
-TOOL.Command		= nil
-TOOL.ConfigName		= nil
 
 TOOL.ClientConVar[ "locked" ] 	= "0"
-TOOL.ClientConVar[ "key" ] 	= "0"
+TOOL.ClientConVar[ "key" ] 	= "37"
 TOOL.ClientConVar[ "toggle" ] 	= "1"
 
 cleanup.Register( "cameras" )
-
 
 local function MakeCamera( ply, key, locked, toggle, Data )
 	
@@ -18,27 +14,26 @@ local function MakeCamera( ply, key, locked, toggle, Data )
 
 	if ( !IsValid( ent ) ) then return end
 
-	if ( key && IsValid( ply ) && IsValid( ply[ "Camera"..key ] ) ) then
-		ply[ "Camera"..key ]:Remove();
-		ply[ "Camera"..key ] = nil
-	end	
-
 	duplicator.DoGeneric( ent, Data )
 
 	if ( key ) then 
+		for id, camera in pairs( ents.FindByClass( "gmod_cameraprop" ) ) do
+			if ( camera.controlkey && camera.controlkey == key ) then
+				camera:Remove()
+			end
+		end
+
 		ent:SetKey( key ) 
-		ent.controlkey	= key
+		ent.controlkey = key
 	end
 
 	ent:SetPlayer( ply )
-	
 
 	ent.toggle		= toggle
 	ent.locked		= locked
-	
 
 	ent:Spawn()
-		
+
 	ent:SetTracking( NULL, Vector(0) )
 	ent:SetLocked( locked )
 
@@ -57,10 +52,6 @@ local function MakeCamera( ply, key, locked, toggle, Data )
 		undo.Finish()
 
 		ply:AddCleanup( "cameras", ent )
-
-		if ( key ) then
-			ply[ "Camera"..key ] = ent
-		end
 
 	end
 
@@ -110,5 +101,3 @@ function TOOL:RightClick( trace )
 	return true
 	
 end
-
-

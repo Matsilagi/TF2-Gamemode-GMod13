@@ -1,8 +1,6 @@
 
 TOOL.Category		= "Construction"
 TOOL.Name			= "#tool.light.name"
-TOOL.Command		= nil
-TOOL.ConfigName		= ""
 
 TOOL.ClientConVar[ "ropelength" ]		= "64"
 TOOL.ClientConVar[ "ropematerial" ]		= "cable/rope"
@@ -19,15 +17,15 @@ cleanup.Register( "lights" )
 function TOOL:LeftClick( trace, attach )
 
 	if trace.Entity && trace.Entity:IsPlayer() then return false end
-	if (CLIENT) then return true end
-	if (attach == nil) then attach = true end
+	if ( CLIENT ) then return true end
+	if ( attach == nil ) then attach = true end
 	
 	-- If there's no physics object then we can't constraint it!
 	if ( SERVER && attach && !util.IsValidPhysicsObject( trace.Entity, trace.PhysicsBone ) ) then return false end
 	
 	local ply = self:GetOwner()
 	
-	local pos, ang = trace.HitPos + trace.HitNormal * 10, trace.HitNormal:Angle() - Angle( 90, 0, 0 )
+	local pos, ang = trace.HitPos + trace.HitNormal * 8, trace.HitNormal:Angle() - Angle( 90, 0, 0 )
 
 	local r 	= math.Clamp( self:GetClientNumber( "r" ), 0, 255 )
 	local g 	= math.Clamp( self:GetClientNumber( "g" ), 0, 255 )
@@ -47,8 +45,7 @@ function TOOL:LeftClick( trace, attach )
 	if	( IsValid( trace.Entity ) && 
 			trace.Entity:GetClass() == "gmod_light" &&
 			trace.Entity:GetPlayer() == ply ) then
-		
-		
+
 		trace.Entity:SetColor( Color( r, g, b, 255 ) )
 		trace.Entity.r = r
 		trace.Entity.g = g
@@ -59,6 +56,14 @@ function TOOL:LeftClick( trace, attach )
 		trace.Entity:SetBrightness( brght )
 		trace.Entity:SetLightSize( size )
 		trace.Entity:SetToggle( !toggle )
+		
+		trace.Entity.KeyDown = key
+		
+		numpad.Remove( trace.Entity.NumDown )
+		numpad.Remove( trace.Entity.NumUp )
+
+		trace.Entity.NumDown = numpad.OnDown( ply, key, "LightToggle", trace.Entity, 1 )
+		trace.Entity.NumUp = numpad.OnUp( ply, key, "LightToggle", trace.Entity, 0 )
 		
 		return true
 		
@@ -119,10 +124,42 @@ function TOOL:RightClick( trace )
 
 end
 
+function TOOL:UpdateGhostLight( ent, player )
+
+	if ( !IsValid( ent ) ) then return end
+	
+	local tr	= util.GetPlayerTrace( player )
+	local trace	= util.TraceLine( tr )
+	if ( !trace.Hit ) then return end
+	
+	if ( trace.Entity:IsPlayer() || trace.Entity:GetClass() == "gmod_light" ) then
+	
+		ent:SetNoDraw( true )
+		return
+		
+	end
+
+	ent:SetPos( trace.HitPos + trace.HitNormal * 8 )
+	ent:SetAngles( trace.HitNormal:Angle() - Angle( 90, 0, 0 ) )
+	
+	ent:SetNoDraw( false )
+	
+end
+
+function TOOL:Think()
+
+	if ( !IsValid( self.GhostEntity ) || self.GhostEntity:GetModel() != /*self:GetClientInfo( "model" )*/ "models/MaxOfS2D/light_tubular.mdl" ) then
+		self:MakeGhostEntity( "models/MaxOfS2D/light_tubular.mdl", Vector( 0, 0, 0 ), Angle( 0, 0, 0 ) )
+	end
+	
+	self:UpdateGhostLight( self.GhostEntity, self:GetOwner() )
+	
+end
+
 function TOOL.BuildCPanel( CPanel )
 
 	-- HEADER
-	CPanel:AddControl( "Header", { Text = "#tool.light.name", Description	= "#tool.light.desc" }  )
+	CPanel:AddControl( "Header", { Description = "#tool.light.desc" } )
 	
 	-- Presets
 	local params = { Label = "#tool.presets", MenuButton = 1, Folder = "light", Options = {}, CVars = {} }
@@ -148,7 +185,7 @@ function TOOL.BuildCPanel( CPanel )
 		
 	CPanel:AddControl( "ComboBox", params )
 	
-	CPanel:AddControl( "Numpad", { Label = "#tool.light.toggle", Command = "light_key", ButtonSize = 22 } )
+	CPanel:AddControl( "Numpad", { Label = "#tool.light.key", Command = "light_key", ButtonSize = 22 } )
 	
 	CPanel:AddControl( "Slider",  { Label	= "#tool.light.ropelength",
 									Type	= "Float",
@@ -217,8 +254,8 @@ if ( SERVER ) then
 		lamp.KeyDown = KeyDown
 		lamp.on = on
 		
-		numpad.OnDown( pl, KeyDown, "LightToggle", lamp, 1 )
-		numpad.OnUp( pl, KeyDown, "LightToggle", lamp, 0 )
+		lamp.NumDown = numpad.OnDown( pl, KeyDown, "LightToggle", lamp, 1 )
+		lamp.NumUp = numpad.OnUp( pl, KeyDown, "LightToggle", lamp, 0 )
 
 		return lamp
 		

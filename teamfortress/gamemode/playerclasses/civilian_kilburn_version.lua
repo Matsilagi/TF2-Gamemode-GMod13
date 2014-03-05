@@ -1,29 +1,16 @@
 CLASS.Name = "Heavy"
-CLASS.Speed = 77
-CLASS.Health = 300
+CLASS.Speed = 27
+CLASS.Health = 999
 
 if CLIENT then
 	CLASS.CharacterImage = {
 		surface.GetTextureID("hud/class_heavyred"),
 		surface.GetTextureID("hud/class_heavyblue")
 	}
-	CLASS.ScoreboardImage = {
-		surface.GetTextureID("hud/leaderboard_class_heavy"),
-		surface.GetTextureID("hud/leaderboard_class_heavy_d")
-	}
 end
 
-CLASS.Loadout = {"tf_weapon_minigun", "tf_weapon_shotgun_hwg", "tf_weapon_fists"}
-CLASS.DefaultLoadout = {"TF_WEAPON_MINIGUN","TF_WEAPON_SHOTGUN_HWG","TF_WEAPON_FISTS"}
+CLASS.Loadout = {"tf_weapon_shotgun_hwg", "tf_weapon_fists"}
 CLASS.ModelName = "heavy"
-
-----------------------------------------
-
-/* Setting this function to "true" prevents T posing when being moved while crouching with the minigun winded up, however also breaks the crouch movement animations. Relates to an animation blending issue not defined here, so I will set the value to "false" for debugging reasons. */
-
-CLASS.NoDeployedCrouchwalk = false
-
-----------------------------------------
 
 CLASS.Gibs = {
 	[GIB_LEFTLEG]		= GIBS_HEAVY_START,
@@ -32,7 +19,6 @@ CLASS.Gibs = {
 	[GIB_TORSO]			= GIBS_HEAVY_START+5,
 	[GIB_TORSO2]		= GIBS_HEAVY_START+3,
 	[GIB_EQUIPMENT1]	= GIBS_HEAVY_START+2,
-	[GIB_EQUIPMENT2]	= GIBS_HEAVY_START+2,
 	[GIB_HEAD]			= GIBS_HEAVY_START+6,
 	[GIB_ORGAN]			= GIBS_ORGANS_START,
 }
@@ -58,9 +44,9 @@ CLASS.Sounds = {
 }
 
 CLASS.AmmoMax = {
-	[TF_PRIMARY]	= 200,		-- primary
-	[TF_SECONDARY]	= 32,		-- secondary
-	[TF_METAL]		= 100,		-- metal
+	[TF_PRIMARY]	= 0,		-- primary
+	[TF_SECONDARY]	= 0,		-- secondary
+	[TF_METAL]		= 0,		-- metal
 	[TF_GRENADES1]	= 0,		-- grenades1
 	[TF_GRENADES2]	= 0,		-- grenades2
 }
@@ -88,42 +74,7 @@ function CLASS:PlayCustomGesture(anim, state)
 end
 
 function CLASS:OverrideActivity(anim, state)
-	if self:GetNWBool("MinigunReady") then
-		local actname = ""
-		
-		local wstate = WeaponGestureTranslateTable[state] or "STAND"
-		if wstate=="STAND" then
-			actname = "ACT_MP_DEPLOYED_"
-		else
-			actname = "ACT_MP_"..wstate.."_DEPLOYED_"
-		end
-		
-		if state=="STAND" or wstate=="CROUCH" then
-			actname = actname.."IDLE"
-		else
-			actname = actname.."PRIMARY"
-		end
-		
-		return getfenv()[actname]
-	end
+	return ACT_IDLE
 end
 
 end
-
--- This overrides the default primary walk animation speed while deployed as defined by the engine.
-if CLIENT then
-
-function CLASS:ModifyMaxAnimSpeed(speed)
-	if self:GetNWBool("MinigunReady") then
-		return 12
-	else
-		local w = self:GetActiveWeapon()
-		if w and w:IsValid() and w:GetClass()=="tf_weapon_minigun" then
-			return 30
-		end
-	end
-	return speed
-end
-
-end
-

@@ -1,8 +1,6 @@
 
 TOOL.Category		= "Constraints"
 TOOL.Name			= "#tool.axis.name"
-TOOL.Command		= nil
-TOOL.ConfigName		= nil
 
 TOOL.ClientConVar[ "forcelimit" ] = 0
 TOOL.ClientConVar[ "torquelimit" ] = 0
@@ -61,11 +59,7 @@ function TOOL:LeftClick( trace )
 		Phys1:SetAngles( TargetAngle )
 		
 		-- Move the object so that the hitpos on our object is at the second hitpos
-		local TargetPos = WPos2 + (Phys1:GetPos() - self:GetPos(1))
-		local TargetPos = WPos2 + (Phys1:GetPos() - self:GetPos(1)) + (Norm2)
-
-		-- Offset slightly so it can rotate
-		TargetPos = TargetPos + Norm2
+		local TargetPos = WPos2 + ( Phys1:GetPos() - self:GetPos( 1 ) ) + ( Norm2 * 0.2 )
 		
 		-- Set the position
 		Phys1:SetPos( TargetPos )
@@ -144,8 +138,7 @@ function TOOL:RightClick( trace )
 		
 		--Phys1:SetAngles( TargetAngle )
 		
-		local TargetPos = WPos2 + (Phys1:GetPos() - self:GetPos(1)) + (Norm2)
-
+		local TargetPos = WPos2 + ( Phys1:GetPos() - self:GetPos( 1 ) ) + ( Norm2 * 0.2 )
 
 		Phys1:Wake()
 
@@ -197,7 +190,7 @@ end
 
 function TOOL.BuildCPanel( CPanel )
 
-	CPanel:AddControl( "Header", { Text = "#tool.axis.name", Description	= "#tool.axis.help" }  )
+	CPanel:AddControl( "Header", { Description	= "#tool.axis.help" }  )
 	
 	CPanel:AddControl( "ComboBox", { Label = "#tool.presets",
 									 MenuButton = 1,

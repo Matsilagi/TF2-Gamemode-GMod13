@@ -1,9 +1,6 @@
 
 TOOL.Category		= "Render"
 TOOL.Name			= "#tool.trails.name"
-TOOL.Command		= nil
-TOOL.ConfigName		= ""
-
 
 TOOL.ClientConVar[ "r" ] = 255
 TOOL.ClientConVar[ "g" ] = 255
@@ -18,25 +15,9 @@ TOOL.ClientConVar[ "material" ] = "trails/lol"
 
 cleanup.Register( "trails" )
 
--- Add Default Language translation (saves adding it to the txt files)
-if ( CLIENT ) then
-
-	language.Add( "Tool_trails_name", "Trails" )
-	language.Add( "Tool_trails_desc", "Add entity trail beams" )
-	language.Add( "Tool_trails_0", "Left click on an entity to add a trail. Right click to remove" )
-	
-	language.Add( "Undone_trails", "Undone Trail" )
-	
-	language.Add( "Cleanup_trails", "Trails" )
-	language.Add( "Cleaned_trails", "Cleaned up all Trails" )
-
-end
-
-
-
 local function SetTrails( Player, Entity, Data )
 
-	if ( Entity.SToolTrail ) then
+	if ( IsValid( Entity.SToolTrail ) ) then
 	
 		Entity.SToolTrail:Remove()
 		Entity.SToolTrail = nil
@@ -115,14 +96,17 @@ function TOOL:LeftClick( trace )
 	
 	end
 
-	local Trail = SetTrails( self:GetOwner(), trace.Entity, { Color = Color( r, g, b, a ), 
-																	Length = length, 
-																	StartSize = startsize, 
-																	EndSize = endsize,
-																	Material = Mat } )
+	local Trail = SetTrails( self:GetOwner(), trace.Entity, {
+		Color = Color( r, g, b, a ), 
+		Length = length, 
+		StartSize = startsize, 
+		EndSize = endsize,
+		Material = Mat
+	} )
+
 	undo.Create("Trail")
 		undo.AddEntity( Trail )
-		undo.SetPlayer( ply )
+		undo.SetPlayer( self:GetOwner() )
 	undo.Finish()
 
 	return true
@@ -148,20 +132,19 @@ end
 -- Note: Addons can easily add to this list in their 
 -- own file placed in autorun or something.
 --
-list.Set( "trail_materials", "#Plasma", 	"trails/plasma" )
-list.Set( "trail_materials", "#Tube", 		"trails/tube" )
-list.Set( "trail_materials", "#Electric", 	"trails/electric" )
-list.Set( "trail_materials", "#Smoke", 		"trails/smoke" )
-list.Set( "trail_materials", "#Laser", 		"trails/laser" )
-list.Set( "trail_materials", "#PhysBeam", 	"trails/physbeam" )
-list.Set( "trail_materials", "#Love", 		"trails/love" )
-list.Set( "trail_materials", "#LoL", 		"trails/lol" )
+list.Set( "trail_materials", "#trail.plasma", 	"trails/plasma" )
+list.Set( "trail_materials", "#trail.tube", 		"trails/tube" )
+list.Set( "trail_materials", "#trail.electric", 	"trails/electric" )
+list.Set( "trail_materials", "#trail.smoke", 		"trails/smoke" )
+list.Set( "trail_materials", "#trail.laser", 		"trails/laser" )
+list.Set( "trail_materials", "#trail.physbeam", 	"trails/physbeam" )
+list.Set( "trail_materials", "#trail.love", 		"trails/love" )
+list.Set( "trail_materials", "#trail.lol", 		"trails/lol" )
 
 function TOOL.BuildCPanel( CPanel )
 
-	-- HEADER
-	CPanel:AddControl( "Header", { Text = "#tool.trails.name", Description	= "#tool.trails.name" }  )
-	
+	CPanel:AddControl( "Header", { Description	= "#tool.trails.desc" }  )
+
 	-- Presets
 	local params = { Label = "#tool.presets", MenuButton = 1, Folder = "trails", Options = {}, CVars = {} }
 		
@@ -185,7 +168,7 @@ function TOOL.BuildCPanel( CPanel )
 		
 	CPanel:AddControl( "ComboBox", params )
 	
-	CPanel:AddControl( "Color",  { Label	= "Color:",
+	CPanel:AddControl( "Color",  { Label	= "#tool.trails.color",
 									Red			= "trails_r",
 									Green		= "trails_g",
 									Blue		= "trails_b",

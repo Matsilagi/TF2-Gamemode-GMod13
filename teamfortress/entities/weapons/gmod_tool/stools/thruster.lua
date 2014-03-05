@@ -1,13 +1,11 @@
 
 TOOL.Category		= "Construction"
 TOOL.Name			= "#tool.thruster.name"
-TOOL.Command		= nil
-TOOL.ConfigName		= ""
 
 TOOL.ClientConVar[ "force" ]			= "1500"
 TOOL.ClientConVar[ "model" ]			= "models/props_c17/lampShade001a.mdl"
-TOOL.ClientConVar[ "keygroup" ]			= "7"
-TOOL.ClientConVar[ "keygroup_back" ]	= "4"
+TOOL.ClientConVar[ "keygroup" ]			= "45"
+TOOL.ClientConVar[ "keygroup_back" ]	= "42"
 TOOL.ClientConVar[ "toggle" ]			= "0"
 TOOL.ClientConVar[ "collision" ]		= "0"
 TOOL.ClientConVar[ "effect" ]			= "fire"
@@ -23,7 +21,7 @@ function TOOL:LeftClick( trace )
 	-- If there's no physics object then we can't constraint it!
 	if ( SERVER && !util.IsValidPhysicsObject( trace.Entity, trace.PhysicsBone ) ) then return false end
 	
-	if (CLIENT) then return true end
+	if ( CLIENT ) then return true end
 	
 	local ply = self:GetOwner()
 	
@@ -45,7 +43,20 @@ function TOOL:LeftClick( trace )
 		trace.Entity:SetToggle( toggle == 1 )
 		trace.Entity.ActivateOnDamage = ( damageable == 1 )
 		trace.Entity:SetSound( soundname )
+		
+		numpad.Remove( trace.Entity.NumDown )
+		numpad.Remove( trace.Entity.NumUp )
+		numpad.Remove( trace.Entity.NumBackDown )
+		numpad.Remove( trace.Entity.NumBackUp )
+		
+		trace.Entity.NumDown = numpad.OnDown( ply, key, "Thruster_On", trace.Entity, 1 )
+		trace.Entity.NumUp = numpad.OnUp( ply, key, "Thruster_Off", trace.Entity, 1 )
+		
+		trace.Entity.NumBackDown = numpad.OnDown( ply, key_bk, "Thruster_On", trace.Entity, -1 )
+		trace.Entity.NumBackUp = numpad.OnUp( ply, key_bk, "Thruster_Off", trace.Entity, -1 )
 
+		trace.Entity.key	= key
+		trace.Entity.key_bk = key_bk
 		trace.Entity.force	= force
 		trace.Entity.toggle	= toggle
 		trace.Entity.effect	= effect
@@ -56,8 +67,8 @@ function TOOL:LeftClick( trace )
 	
 	if ( !self:GetSWEP():CheckLimit( "thrusters" ) ) then return false end
 
-	if (!util.IsValidModel(model)) then return false end
-	if (!util.IsValidProp(model)) then return false end		-- Allow ragdolls to be used?
+	if ( !util.IsValidModel( model ) ) then return false end
+	if ( !util.IsValidProp( model ) ) then return false end		-- Allow ragdolls to be used?
 
 	local Ang = trace.HitNormal:Angle()
 	Ang.pitch = Ang.pitch + 90
@@ -107,7 +118,7 @@ if (SERVER) then
 		end
 	
 		local thruster = ents.Create( "gmod_thruster" )
-		if (!thruster:IsValid()) then return false end
+		if ( !thruster:IsValid() ) then return false end
 		thruster:SetModel( Model )
 
 		thruster:SetAngles( Ang )
@@ -121,11 +132,11 @@ if (SERVER) then
 		thruster:SetPlayer( pl )
 		thruster:SetSound( soundname )
 
-		numpad.OnDown( 	 pl, 	key, 	"Thruster_On", 		thruster, 1 )
-		numpad.OnUp( 	 pl, 	key, 	"Thruster_Off", 	thruster, 1 )
+		thruster.NumDown = numpad.OnDown( pl, key, "Thruster_On", thruster, 1 )
+		thruster.NumUp = numpad.OnUp( pl, key, "Thruster_Off", thruster, 1 )
 		
-		numpad.OnDown( 	 pl, 	key_bck, 	"Thruster_On", 		thruster, -1 )
-		numpad.OnUp( 	 pl, 	key_bck, 	"Thruster_Off", 	thruster, -1 )
+		thruster.NumBackDown = numpad.OnDown( pl, key_bck, "Thruster_On", thruster, -1 )
+		thruster.NumBackUp = numpad.OnUp( pl, key_bck, "Thruster_Off", thruster, -1 )
 
 		if ( nocollide == true && IsValid( thruster:GetPhysicsObject() ) ) then thruster:GetPhysicsObject():EnableCollisions( false ) end
 
@@ -139,9 +150,9 @@ if (SERVER) then
 			nocollide = nocollide,
 			damageable = damageable,
 			soundname = soundname
-			}
+		}
 
-		table.Merge(thruster:GetTable(), ttable )
+		table.Merge( thruster:GetTable(), ttable )
 		
 		if ( IsValid( pl ) ) then
 			pl:AddCount( "thrusters", thruster )
@@ -199,7 +210,7 @@ end
 function TOOL.BuildCPanel( CPanel )
 
 	-- HEADER
-	CPanel:AddControl( "Header", { Text = "#tool.thruster.name", Description	= "#tool.thruster.desc" }  )
+	CPanel:AddControl( "Header", { Description	= "#tool.thruster.desc" } )
 	
 	local Options = { Default = { thruster_force = "20",
 									thruster_model = "models/props_junk/plasticbucket001a.mdl",
@@ -299,20 +310,20 @@ list.Set( "ThrusterModels", "models/XQM/AfterBurner1Big.mdl", {} )
 list.Set( "ThrusterModels", "models/XQM/AfterBurner1Huge.mdl", {} )
 list.Set( "ThrusterModels", "models/XQM/AfterBurner1Large.mdl", {} )
 
-list.Set( "ThrusterEffects", "#No_Effects", { thruster_effect = "none" } )
-list.Set( "ThrusterEffects", "#Flames", 	{ thruster_effect = "fire" } )
-list.Set( "ThrusterEffects", "#Plasma", 	{ thruster_effect = "plasma" } )
-list.Set( "ThrusterEffects", "#Magic",	 	{ thruster_effect = "magic" } )
-list.Set( "ThrusterEffects", "#Rings", 		{ thruster_effect = "rings" } )
-list.Set( "ThrusterEffects", "#Smoke", 		{ thruster_effect = "smoke" } )
+list.Set( "ThrusterEffects", "#thrustereffect.none", { thruster_effect = "none" } )
+list.Set( "ThrusterEffects", "#thrustereffect.flames", 	{ thruster_effect = "fire" } )
+list.Set( "ThrusterEffects", "#thrustereffect.plasma", 	{ thruster_effect = "plasma" } )
+list.Set( "ThrusterEffects", "#thrustereffect.magic",	{ thruster_effect = "magic" } )
+list.Set( "ThrusterEffects", "#thrustereffect.rings",	{ thruster_effect = "rings" } )
+list.Set( "ThrusterEffects", "#thrustereffect.smoke",	{ thruster_effect = "smoke" } )
 
-list.Set( "ThrusterSounds", "#None", { thruster_soundname = "" } )
-list.Set( "ThrusterSounds", "#Steam Low", { thruster_soundname = "PhysicsCannister.ThrusterLoop" } )
-list.Set( "ThrusterSounds", "#Electric Zappy", { thruster_soundname = "WeaponDissolve.Charge" } )
-list.Set( "ThrusterSounds", "#Electric Beam", { thruster_soundname = "WeaponDissolve.Beam" } )
-list.Set( "ThrusterSounds", "#Elevator", { thruster_soundname = "eli_lab.elevator_move" } )
-list.Set( "ThrusterSounds", "#Energy", { thruster_soundname = "combine.sheild_loop" } )
-list.Set( "ThrusterSounds", "#Ring Flutter", { thruster_soundname = "k_lab.ringsrotating" } )
-list.Set( "ThrusterSounds", "#Resonance", { thruster_soundname = "k_lab.teleport_rings_high" } )
-list.Set( "ThrusterSounds", "#Drop Ship", { thruster_soundname = "k_lab2.DropshipRotorLoop" } )
-list.Set( "ThrusterSounds", "#Little Machine", { thruster_soundname = "Town.d1_town_01_spin_loop" } )
+list.Set( "ThrusterSounds", "#thrustersounds.none", { thruster_soundname = "" } )
+list.Set( "ThrusterSounds", "#thrustersounds.steam", { thruster_soundname = "PhysicsCannister.ThrusterLoop" } )
+list.Set( "ThrusterSounds", "#thrustersounds.zap", { thruster_soundname = "WeaponDissolve.Charge" } )
+list.Set( "ThrusterSounds", "#thrustersounds.beam", { thruster_soundname = "WeaponDissolve.Beam" } )
+list.Set( "ThrusterSounds", "#thrustersounds.elevator", { thruster_soundname = "eli_lab.elevator_move" } )
+list.Set( "ThrusterSounds", "#thrustersounds.energy", { thruster_soundname = "combine.sheild_loop" } )
+list.Set( "ThrusterSounds", "#thrustersounds.ring", { thruster_soundname = "k_lab.ringsrotating" } )
+list.Set( "ThrusterSounds", "#thrustersounds.resonance", { thruster_soundname = "k_lab.teleport_rings_high" } )
+list.Set( "ThrusterSounds", "#thrustersounds.dropship", { thruster_soundname = "k_lab2.DropshipRotorLoop" } )
+list.Set( "ThrusterSounds", "#thrustersounds.machine", { thruster_soundname = "Town.d1_town_01_spin_loop" } )

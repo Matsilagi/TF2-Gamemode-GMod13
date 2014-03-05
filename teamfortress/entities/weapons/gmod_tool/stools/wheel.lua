@@ -1,16 +1,13 @@
 
 TOOL.Category		= "Construction"
 TOOL.Name			= "#tool.wheel.name"
-TOOL.Command		= nil
-TOOL.ConfigName		= ""
-
 
 TOOL.ClientConVar[ "torque" ] 		= "3000"
 TOOL.ClientConVar[ "friction" ] 	= "1"
 TOOL.ClientConVar[ "nocollide" ] 	= "1"
 TOOL.ClientConVar[ "forcelimit" ] 	= "0"
-TOOL.ClientConVar[ "fwd" ] 			= "8"	-- Forward key
-TOOL.ClientConVar[ "bck" ] 			= "5"	-- Back key
+TOOL.ClientConVar[ "fwd" ] 			= "45"	-- Forward key
+TOOL.ClientConVar[ "bck" ] 			= "42"	-- Back key
 TOOL.ClientConVar[ "toggle" ] 		= "0"	-- Togglable
 TOOL.ClientConVar[ "model" ] 		= "models/props_vehicles/carparts_wheel01a.mdl"
 TOOL.ClientConVar[ "rx" ] 			= "90"
@@ -61,10 +58,10 @@ function TOOL:LeftClick( trace )
 	wheelEnt:SetAngles( TargetAngle )
 	
 	local CurPos = wheelEnt:GetPos()
-	local NearestPoint = wheelEnt:NearestPoint( CurPos - (trace.HitNormal * 512) )
+	local NearestPoint = wheelEnt:NearestPoint( CurPos - ( trace.HitNormal * 512 ) )
 	local wheelOffset = CurPos - NearestPoint
 		
-	wheelEnt:SetPos( trace.HitPos + wheelOffset + trace.HitNormal )
+	wheelEnt:SetPos( trace.HitPos + wheelOffset )
 	
 	-- Wake up the physics object so that the entity updates
 	wheelEnt:GetPhysicsObject():Wake()
@@ -233,7 +230,7 @@ function TOOL:UpdateGhostWheel( ent, player )
 	local WheelOffset = CurPos - NearestPoint
 	
 	local min = ent:OBBMins()
-	ent:SetPos( trace.HitPos + trace.HitNormal + WheelOffset )
+	ent:SetPos( trace.HitPos + WheelOffset )
 	ent:SetAngles( Ang )
 	
 	ent:SetNoDraw( false )
@@ -259,7 +256,7 @@ end
 function TOOL.BuildCPanel( CPanel )
 
 	-- HEADER
-	CPanel:AddControl( "Header", { Text = "#tool.wheel.name", Description	= "#tool.wheel.desc" }  )
+	CPanel:AddControl( "Header", { Description	= "#tool.wheel.desc" }  )
 	
 	local Options = { Default = { wheel_torque = "3000",
 									wheel_friction = "0",

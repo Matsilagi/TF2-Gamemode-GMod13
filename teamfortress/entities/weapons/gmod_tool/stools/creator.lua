@@ -4,14 +4,6 @@ TOOL.ClientConVar[ "type" ]	= "0"
 TOOL.ClientConVar[ "name" ]	= "0"
 TOOL.ClientConVar[ "arg" ]	= "0"
 
-if ( CLIENT ) then
-
-	language.Add( "Tool_creator_name", "Creator" )
-	language.Add( "Tool_creator_desc", "Spawn an entity from the spawnmenu" )
-	language.Add( "Tool_creator_0", "Click anywhere to create the entity you selected from the spawnmenu" )
-
-end
-
 function TOOL:LeftClick( trace, attach )
 
 	local type	= self:GetClientNumber(	"type",	0 )
@@ -45,8 +37,14 @@ function TOOL:LeftClick( trace, attach )
 	if ( SERVER && type == 3 ) then
 		Spawn_Weapon( self:GetOwner(), name, trace )
 	end
+	
+	--
+	-- type 4 = props
+	--
+	if ( SERVER && type == 4 ) then
+		CCSpawn( self:GetOwner(), nil, { name } )
+	end
 
-	return true;
+	return true
 
 end
-

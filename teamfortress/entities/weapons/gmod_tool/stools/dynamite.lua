@@ -2,7 +2,7 @@
 TOOL.Category		= "Construction"
 TOOL.Name			= "#tool.dynamite.name"
 
-TOOL.ClientConVar[ "group" ]		= 65	-- Current group
+TOOL.ClientConVar[ "group" ]		= 52	-- Current group
 TOOL.ClientConVar[ "damage" ]		= 200	-- Damage to inflict
 TOOL.ClientConVar[ "delay" ]		= 0		-- Delay before explosions start
 TOOL.ClientConVar[ "model" ]		= "models/dav0r/tnt/tnt.mdl"
@@ -16,8 +16,7 @@ function TOOL:LeftClick( trace )
 	if ( trace.Entity:IsPlayer() ) then return false end
 	if ( CLIENT ) then return true end
 	
-	local ply		= self:GetOwner()
-	local eyeangles = ply:EyeAngles()
+	local ply 			= self:GetOwner()
 
 	-- Get client's CVars
 	local _group		= self:GetClientNumber( "group" ) 
@@ -29,16 +28,24 @@ function TOOL:LeftClick( trace )
 	-- If we shot a button change its keygroup
 	if	( IsValid( trace.Entity ) && trace.Entity:GetClass() == "gmod_dynamite" && trace.Entity:GetPlayer() == ply ) then
 		trace.Entity:Setup( _damage )
+		trace.Entity:SetShouldRemove( _remove )
+		trace.Entity.delay = _delay
+		
+		numpad.Remove( trace.Entity.NumDown )
+		trace.Entity.key = _group
+		trace.Entity.NumDown = numpad.OnDown( ply, _group, "DynamiteBlow", trace.Entity, _delay )
 		return true
 	end
-	
 
 	if ( !self:GetSWEP():CheckLimit( "dynamite" ) ) then return false end
 
-	local dynamite = MakeDynamite( ply, trace.HitPos, Angle( 0, eyeangles.yaw, 0 ), _group, _damage, _model, _remove, _delay )
+	local dynamite = MakeDynamite( ply, trace.HitPos, Angle( 0, 0, 0 ), _group, _damage, _model, _remove, _delay )
 	
-	local min = dynamite:OBBMins()
-	dynamite:SetPos( trace.HitPos - trace.HitNormal * min.z )
+	local CurPos = dynamite:GetPos()
+	local NearestPoint = dynamite:NearestPoint( CurPos - ( trace.HitNormal * 512 ) )
+	local Offset = CurPos - NearestPoint
+
+	dynamite:SetPos( trace.HitPos + Offset )
 
 	undo.Create( "Dynamite" )
 		undo.AddEntity( dynamite )
@@ -65,10 +72,10 @@ if ( SERVER ) then
 		if ( IsValid( pl ) && !pl:CheckLimit( "dynamite" ) ) then return nil end
 
 		local dynamite = ents.Create( "gmod_dynamite" )
-			dynamite:SetPos( Pos )	
-			dynamite:SetAngles( Ang )
-			dynamite:SetModel( Model )
-			dynamite:SetShouldRemove( Remove )
+		dynamite:SetPos( Pos )	
+		dynamite:SetAngles( Ang )
+		dynamite:SetModel( Model )
+		dynamite:SetShouldRemove( Remove )
 		dynamite:Spawn()
 		dynamite:Activate()
 		
@@ -91,7 +98,7 @@ if ( SERVER ) then
 		}
 		
 		table.Merge( dynamite:GetTable(), ttable )
-		numpad.OnDown( pl, key, "DynamiteBlow", dynamite, delay )
+		dynamite.NumDown = numpad.OnDown( pl, key, "DynamiteBlow", dynamite, delay )
 		
 		if ( IsValid( pl ) ) then
 
@@ -130,12 +137,14 @@ function TOOL:UpdateGhostDynamite( ent, player )
 		ent:SetNoDraw( true )
 		return
 	end
-	
-	local Ang = Angle( 0, player:EyeAngles().yaw, 0 )
-	ent:SetAngles( Ang )	
 
-	local min = ent:OBBMins()
-	ent:SetPos( trace.HitPos - trace.HitNormal * min.z )
+	ent:SetAngles( Angle( 0, 0, 0 ) )	
+
+	local CurPos = ent:GetPos()
+	local NearestPoint = ent:NearestPoint( CurPos - ( trace.HitNormal * 512 ) )
+	local Offset = CurPos - NearestPoint
+
+	ent:SetPos( trace.HitPos + Offset )
 	
 	ent:SetNoDraw( false )
 
@@ -155,7 +164,7 @@ end
 
 function TOOL.BuildCPanel( CPanel )
 
-	CPanel:AddControl( "Header", { Text = "#tool.dynamite.name", Description	= "#tool.dynamite.help" }  )
+	CPanel:AddControl( "Header", { Description	= "#tool.dynamite.help" } )
 	
 	CPanel:AddControl( "ComboBox", { Label = "#tool.presets",
 									 MenuButton = 1,
