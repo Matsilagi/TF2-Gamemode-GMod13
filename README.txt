@@ -13,7 +13,7 @@ This gamemode is free and open source under GPL Version 3.0 License. THE SOFTWAR
 Credits:
 _Kilburn (Original author)
 Jcw87 (Ported to LuaJIT)
-wango911 (Squashing core bugs, added icon, backgrounds)
+wango911 (Squashing bugs, added icon, backgrounds)
 Nik1895 (Reporting and squashing bugs)
 Kelse (Ditto)
 
